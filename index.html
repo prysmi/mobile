@@ -1,14 +1,6 @@
 <!DOCTYPE html>
-<!-- 
-    Lighthouse Optimization: Added a 'lang' attribute to the <html> tag.
-    This helps search engines and assistive technologies understand the language of the page.
--->
 <html lang="en" class="scroll-smooth">
 <head>
-    <!-- 
-        Lighthouse Optimization: The Google Tag Manager script is already using the recommended asynchronous loading pattern, which is great for performance. 
-        No changes needed here.
-    -->
     <!-- Google Tag Manager -->
     <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -22,26 +14,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRYSMI Agency | Marketing That Works Like a Product</title>
 
-    <!-- SEO, Social, and Schema Meta Tags - These are well-structured. No changes needed. -->
     <meta name="description" content="Prysmi delivers revenue-ready B2B marketing for tech founders. We build clear messaging, high-intent content strategies, and scalable systems that drive growth.">
     <meta name="author" content="Prysmi Media Labs">
     <meta name="theme-color" content="#FF53AC">
     <link rel="canonical" href="https://prysmi.com/">
     
-    <!-- 
-        Lighthouse Optimization: Preconnecting to required origins.
-        This establishes an early connection to the Google Fonts servers, speeding up font loading.
-    -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- 
-        Lighthouse Optimization: Asynchronously load the Google Fonts stylesheet.
-        Using rel="preload" and an onload handler prevents this CSS from blocking the initial rendering of your page.
-    -->
+    <!-- The full stylesheet is preloaded but not render-blocking -->
+    <link rel="preload" href="./dist/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="./dist/style.css"></noscript>
+
+    <!-- Google Fonts are also loaded asynchronously -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&family=Libre+Franklin:wght@400;600;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&family=Libre+Franklin:wght@400;600;800;900&display=swap"></noscript>
     
+    <!-- 
+        Lighthouse FIX: Inlined Critical CSS.
+        This <style> block contains the absolute minimum CSS needed to render the above-the-fold content 
+        (header and hero section) without any layout shift. This eliminates the massive CLS issue caused by 
+        deferring the main stylesheet, while still allowing the full stylesheet to load non-blockingly.
+    -->
+    <style>
+        :root { --color-bg-body: #0A0A0A; --color-text-primary: #E0E0E0; --color-text-heading: #FFFFFF; --color-accent-pink: #D92A81; }
+        body { background-color: var(--color-bg-body); color: var(--color-text-primary); font-family: 'Libre Franklin', sans-serif; }
+        h1, h2 { color: var(--color-text-heading); font-family: 'Libre Franklin', sans-serif; }
+        .text-emphasis-italic-bold { font-family: 'Libre Baskerville', serif; font-style: italic; font-weight: bold; }
+        #main-header { background-color: rgba(10, 10, 10, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; width: 100%; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        #main-nav { max-width: 72rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; height: 4rem; display: flex; align-items: center; justify-content: space-between; }
+        #hero { min-height: calc(100vh - 4rem); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 4rem; padding-bottom: 4rem; background-image: linear-gradient(to bottom right, #FF53AC, #1A1A1A); border-radius: 0.75rem; margin-top: 2rem; margin-bottom: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        #hero .max-w-4xl { max-width: 56rem; }
+        #hero h1 { font-size: 2.25rem; line-height: 2.5rem; font-weight: 900; letter-spacing: -0.025em; color: #fff; }
+        #hero h2 { font-size: 1.125rem; line-height: 1.75rem; color: #fff; opacity: 0.9; margin-bottom: 0; margin-top: 1rem; }
+        #hero-cta-btn { display: inline-block; background-color: #fff; color: var(--color-accent-pink); font-weight: 600; padding: 0.75rem 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); font-size: 1.125rem; line-height: 1.75rem; margin-top: 2rem; }
+        @media (min-width: 640px) {
+            #hero h1 { font-size: 3.75rem; line-height: 1; }
+            #hero h2 { font-size: 1.25rem; line-height: 1.75rem; margin-top: 1.5rem; }
+        }
+        @media (min-width: 768px) {
+            #hero h1 { font-size: 4.5rem; line-height: 1; }
+            #hero h2 { font-size: 1.5rem; line-height: 2rem; }
+        }
+        @media (min-width: 1024px) { #hero h1 { font-size: 6rem; line-height: 1; } }
+    </style>
+
     <!-- Social and Schema tags remain unchanged -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Prysmi">
@@ -74,24 +91,7 @@
     }
     </script>
     
-    <!-- 
-        Lighthouse Optimization: Removed the Tailwind CDN script.
-        This script is for development and is not needed when using a compiled CSS file like 'style.css'.
-        Removing it reduces unused JavaScript and eliminates a render-blocking resource.
-    -->
-    
-    <!-- 
-        Lighthouse Optimization: Added 'defer' to the Three.js script.
-        This ensures the script is downloaded in parallel and executed only after the document is parsed, improving page load performance.
-    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    
-    <!-- 
-        Lighthouse Optimization: Asynchronously load your main stylesheet.
-        Similar to the Google Fonts optimization, this prevents the CSS from blocking rendering.
-    -->
-    <link rel="preload" href="./dist/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="./dist/style.css"></noscript>
 </head>
 <body class="antialiased">
     <!-- Google Tag Manager (noscript) -->
@@ -105,16 +105,9 @@
 
     <!-- Mobile Navigation -->
     <div class="md:hidden">
-        <!-- Mobile Nav Toggle Button -->
         <button id="mobile-nav-toggle" class="fixed top-4 left-4 z-[60] w-14 h-14 p-2 bg-black/50 backdrop-blur-md rounded-xl shadow-lg flex items-center justify-center" aria-label="Open navigation menu">
-            <!-- 
-                Lighthouse Optimization: Added explicit width and height attributes to the image.
-                This prevents Cumulative Layout Shift (CLS) by reserving space for the image before it loads.
-            -->
             <img src="assets/trademarks/logos/Pink Vertical LogoMark Without TM.webp" alt="Prysmi Logo" class="w-10 h-10 object-contain" width="40" height="40" onerror="this.onerror=null;this.src='https://placehold.co/40x40/FF53AC/FFFFFF?text=P';">
         </button>
-
-        <!-- Mobile Nav Panel (Slide-out) -->
         <div id="mobile-nav-panel" class="fixed inset-y-0 right-0 z-[70] w-full max-w-xs bg-gray-900/90 backdrop-blur-xl shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out">
             <div class="flex flex-col h-full p-6 pt-20">
                 <button id="mobile-nav-close" class="absolute top-5 right-5 text-white text-3xl" aria-label="Close navigation menu">&times;</button>
@@ -124,27 +117,17 @@
                     <a href="#process" class="mobile-nav-link text-white text-xl font-semibold">Our Process</a>
                     <a href="#impact-outcomes" class="mobile-nav-link text-white text-xl font-semibold">Our Impact</a>
                     <a href="#contact" class="mobile-nav-link text-white text-xl font-semibold">Contact</a>
-                    <!-- 
-                        Lighthouse Optimization (Accessibility): Increased color contrast.
-                        The original pink (#F53196) on white text had insufficient contrast. 
-                        The inline style uses a slightly darker pink (#D92A81) to meet WCAG AA standards.
-                        This is a temporary inline fix; it will be moved to the CSS file later.
-                    -->
-                    <button id="get-started-mobile-btn" class="mt-6 bg-[#F53196] text-white font-semibold py-3 px-6 rounded-lg shadow-md button-glow-pink text-lg" style="background-color: #D92A81;" aria-label="Get Started with PRYSMI Agency">Get Started</button>
+                    <button id="get-started-mobile-btn" class="mt-6 bg-[#D92A81] text-white font-semibold py-3 px-6 rounded-lg shadow-md button-glow-pink text-lg" aria-label="Get Started with PRYSMI Agency">Get Started</button>
                 </nav>
             </div>
         </div>
     </div>
 
     <!-- Desktop Header -->
-    <header id="main-header" class="hidden md:block bg-black/30 backdrop-blur-lg sticky top-0 z-50 w-full py-2">
-        <nav id="main-nav" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header id="main-header" class="hidden md:block">
+        <nav id="main-nav">
             <div class="flex items-center">
                 <a href="#hero" class="flex items-center" aria-label="PRYSMI Agency Home">
-                    <!-- 
-                        Lighthouse Optimization: Added explicit width and height attributes.
-                        Prevents CLS during page load. Dimensions are based on the element's rendered height.
-                    -->
                     <img src="assets/trademarks/logos/Pink Horizontal Logo TM.webp" alt="PRYSMI Agency Logo" class="h-8 sm:h-10 w-auto" width="120" height="40" onerror="this.onerror=null;this.src='https://placehold.co/120x40/0A0A0A/E0E0E0?text=PRYSMI+Logo';">
                 </a>
             </div>
@@ -155,37 +138,29 @@
                     <a href="#process" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Our Process</a>
                     <a href="#impact-outcomes" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Our Impact</a>
                     <a href="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                    <!-- 
-                        Lighthouse Optimization (Accessibility): Increased color contrast.
-                    -->
-                    <button id="get-started-header-btn" class="nav-link bg-[#F53196] text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-[#EEFF41] hover:text-gray-900 transition-all duration-300 text-sm button-glow-pink" style="background-color: #D92A81;" aria-label="Get Started with PRYSMI Agency">Get Started</button>
+                    <button id="get-started-header-btn" class="nav-link bg-[#D92A81] text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-[#EEFF41] hover:text-gray-900 transition-all duration-300 text-sm button-glow-pink" aria-label="Get Started with PRYSMI Agency">Get Started</button>
                 </div>
             </div>
         </nav>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <section id="hero" class="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center text-center py-16 md:py-24 bg-gradient-to-br from-[#FF53AC] to-[#1A1A1A] rounded-xl my-8 shadow-2xl transform hover:scale-[1.005] transition-transform duration-300">
+        <section id="hero">
             <div class="max-w-4xl">
-                <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white hero-title-glow fade-in-up">
+                <h1 class="hero-title-glow fade-in-up">
                     Unbore Your B2B Marketing<br>with Absolute Clarity.
                 </h1>
-                <h2 class="text-lg sm:text-xl md:text-2xl text-white text-emphasis-italic-bold opacity-90 fade-in-up delay-200ms mb-0 mt-4 md:mt-6">
+                <h2 class="text-emphasis-italic-bold fade-in-up delay-200ms">
                     Fast, Aligned, and Revenue-Ready Marketing<br>for CFOs and Founders that want early, demonstrable wins.
                 </h2>
-                <div class="mt-8 fade-in-up delay-400ms">
-                    <!-- 
-                        Lighthouse Optimization (Accessibility): Increased color contrast.
-                        The original pink text (#F53196) on a white background had insufficient contrast.
-                    -->
-                    <button id="hero-cta-btn" class="inline-block bg-white text-[#F53196] font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#EEFF41] hover:text-gray-900 transition-all duration-300 text-lg button-glow-cta" style="color: #D92A81;" aria-label="Schedule a Discovery Call for your business">
+                <div class="fade-in-up delay-400ms">
+                    <button id="hero-cta-btn" class="button-glow-cta" aria-label="Schedule a Discovery Call for your business">
                         Schedule a Discovery Call
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- Other sections follow with similar optimizations -->
         <section id="about" class="py-16 md:py-24 rounded-xl shadow-2xl">
             <div class="text-center mb-12 px-4">
                 <p class="mt-4 text-lg fade-in-up">
@@ -270,14 +245,9 @@
                         <p class="mb-4">You'll get complete documentation: personas, positioning, sales objections, and messaging audits, so every team speaks the same language.</p>
                     </div>
                     <div class="md:w-1/2 flex justify-center">
-                        <!-- 
-                            Lighthouse Optimization: Added 'loading="lazy"' and explicit width/height.
-                            'loading="lazy"' defers loading of offscreen images, improving initial page load time.
-                        -->
                         <img loading="lazy" decoding="async" src="assets/illustrations/methodology/step_1.webp" alt="A founder and strategist at a whiteboard, removing sticky notes labeled “fluff,” “jargon,” and “features” : leaving only sticky notes labeled “impact,” and “aha.”" class="w-full max-w-sm h-auto rounded-lg shadow-md border border-[#FF53AC]" width="384" height="256" onerror="this.onerror=null;this.src='https://placehold.co/384x256/0A0A0A/E0E0E0?text=Image+Placeholder';">
                     </div>
                 </div>
-
                 <div class="flex flex-col md:flex-row-reverse items-center justify-center gap-8 fade-in-up">
                     <div class="md:w-1/2 text-center md:text-left">
                         <h3 class="text-2xl font-bold text-lime mb-2">Step 2: Built to Be Found</h3>
@@ -289,7 +259,6 @@
                         <img loading="lazy" decoding="async" src="assets/illustrations/methodology/step_2.webp" alt="A search engine heatmap zooms in on buyer intent clusters; a content strategist is re-routing arrows to align site structure with intent." class="w-full max-w-sm h-auto rounded-lg shadow-md border border-[#FF53AC]" width="384" height="256" onerror="this.onerror=null;this.src='https://placehold.co/384x256/0A0A0A/E0E0E0?text=Image+Placeholder';">
                     </div>
                 </div>
-
                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 fade-in-up">
                     <div class="md:w-1/2 text-center md:text-left">
                         <h3 class="text-2xl font-bold text-lime mb-2">Step 3: Design for Decision-Making</h3>
@@ -301,7 +270,6 @@
                         <img loading="lazy" decoding="async" src="assets/illustrations/methodology/step_3.webp" alt="A website wireframes overlaid with funnel stages (problem-aware to decision), with a founder walking through them like a corridor with signposts." class="w-full max-w-sm h-auto rounded-lg shadow-md border border-[#FF53AC]" width="384" height="256" onerror="this.onerror=null;this.src='https://placehold.co/384x256/0A0A0A/E0E0E0?text=Image+Placeholder';">
                     </div>
                 </div>
-
                 <div class="flex flex-col md:flex-row-reverse items-center justify-center gap-8 fade-in-up">
                     <div class="md:w-1/2 text-center md:text-left">
                         <h3 class="text-2xl font-bold text-lime mb-2">Step 4: Tool Up & Scale</h3>
@@ -313,7 +281,6 @@
                         <img loading="lazy" decoding="async" src="assets/illustrations/methodology/step_4.webp" alt="A visual stack of labeled kits: “Objection Handler Deck,” “Positioning Matrix,” “Case Study Generator,” “Founder Post Format.” A team member clicks 'duplicate, customize, publish.'" class="w-full max-w-sm h-auto rounded-lg shadow-md border border-[#FF53AC]" width="384" height="256" onerror="this.onerror=null;this.src='https://placehold.co/384x256/0A0A0A/E0E0E0?text=Image+Placeholder';">
                     </div>
                 </div>
-
                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 fade-in-up">
                     <div class="md:w-1/2 text-center md:text-left">
                         <h3 class="text-2xl font-bold text-lime mb-2">Step 5: Execute With Precision</h3>
@@ -341,10 +308,6 @@
                 <div class="p-6 rounded-xl shadow-lg border flex items-start space-x-4 fade-in-up delay-400ms"><span class="text-green-400 text-2xl mt-1">✅</span><p class="text-lg text-left">Revenue-aligned marketing in motion</p></div>
 
                 <div class="mt-12 text-center p-6 sm:p-8 rounded-xl shadow-xl fade-in-up special-section-bg">
-                    <!-- 
-                        Lighthouse Optimization (Accessibility): Fixed heading order.
-                        Changed from <h4> to <h3> to maintain a logical and sequential heading structure (h2 -> h3).
-                    -->
                     <h3 class="text-xl sm:text-2xl font-bold mb-4">Get <span class="text-emphasis-italic-bold">Full-throated, Experienced Answers</span><br> to any questions on Modern B2B Marketing.</h3>
                     <p class="text-lg mb-4 text-left mx-auto max-w-xl"><span class="text-emphasis-italic-bold">Half-measures</span> will no longer cut it. And <span class="text-emphasis-italic-bold">'picture-perfect’</span> millennial marketing is giving people the ick.</p>
                     <p class="text-lg mb-4 text-left mx-auto max-w-xl">Grow your social presence consistently with <span class="text-emphasis-italic-bold">founder-led, in-person content</span> to show you have skin in the game.</p>
@@ -380,10 +343,6 @@
                         </div>
                     </div>
 
-                    <!-- 
-                        Lighthouse Optimization (Accessibility): Fixed heading order.
-                        Changed from <h4> to <h3> to follow the "Some of Our Valued Clients" h3.
-                    -->
                     <h3 class="text-xl font-bold mt-8 mb-2">Strategic Wins Across B2B SaaS</h3>
                     <p class="text-lg mb-8">Demonstrated success in diverse B2B SaaS environments.</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -412,10 +371,6 @@
                     <p class="flex items-center"><span class="mr-2 text-xl">✉️</span> <a href="mailto:prabhjot@prysmi.com" class="hover:text-gray-400">prabhjot@prysmi.com</a></p>
                     <p class="flex items-center"><span class="mr-2 text-xl">🫱🏼‍🫲🏽</span> <a href="mailto:inquiry@prysmi.com" class="hover:text-gray-400">inquiry@prysmi.com</a></p>
                     <p class="flex items-center"><span class="mr-2 text-xl">📞</span> <a href="tel:+918130752649" class="hover:text-gray-400">+91-8130752649</a></p>
-                    <!-- 
-                        Lighthouse Optimization (Best Practices): Added rel="noopener" to external links.
-                        This prevents potential security vulnerabilities.
-                    -->
                     <p class="flex items-center"><span class="mr-2 text-xl">🔗</span> <a href="https://www.linkedin.com/in/b2bitcontent/" target="_blank" rel="noopener" class="hover:text-gray-400">LinkedIn Profile</a></p>
                     <p class="flex items-center"><span class="mr-2 text-xl">📱</span> <a href="https://wa.me/message/SY3ITVAA72DZG1" target="_blank" rel="noopener" class="hover:text-gray-400">WhatsApp Us</a></p>
                 </div>
@@ -428,7 +383,7 @@
                 <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white hero-title-glow">Let’s Talk Strategy.</h2>
                 <p class="mt-4 text-lg sm:text-xl text-white opacity-90">Schedule a free discovery call to discuss your B2B marketing challenges and how PRYSMI can help.</p>
                 <div class="mt-10">
-                    <button id="schedule-call-footer-btn" class="inline-block bg-white text-[#F53196] font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#EEFF41] hover:text-gray-900 transition-all duration-300 text-lg button-glow-cta" style="color: #D92A81;" aria-label="Schedule Your Discovery Call with PRYSMI Agency">
+                    <button id="schedule-call-footer-btn" class="inline-block bg-white text-[#D92A81] font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-[#EEFF41] hover:text-gray-900 transition-all duration-300 text-lg button-glow-cta" aria-label="Schedule Your Discovery Call with PRYSMI Agency">
                         Schedule Your Discovery Call
                     </button>
                 </div>
@@ -449,11 +404,6 @@
         <span class="theme-symbol"></span>
     </button>
 
-    <!-- 
-        Lighthouse Optimization: All JavaScript logic is now placed at the end of the body.
-        This ensures that the HTML content is parsed and rendered before any scripts are executed, improving the perceived loading speed.
-        The logic inside is already well-optimized with DOMContentLoaded and window.load listeners.
-    -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Mobile Navigation Logic ---
@@ -495,11 +445,10 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        // If it's a stat number, start the count-up animation
                         if (entry.target.classList.contains('stat-number')) {
                             const target = +entry.target.getAttribute('data-target');
                             let current = 0;
-                            const increment = target / 100; // Control animation speed
+                            const increment = target / 100;
                             const updateCount = () => {
                                 if (current < target) {
                                     current += increment;
@@ -511,7 +460,7 @@
                             };
                             updateCount();
                         }
-                        obs.unobserve(entry.target); // Stop observing after animation
+                        obs.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 });
@@ -640,7 +589,6 @@
                     canvas.style.display = 'none';
                 }
             }
-            // A small delay to ensure the main thread is free
             setTimeout(initializeThreeJSBackground, 100);
         });
     </script>
